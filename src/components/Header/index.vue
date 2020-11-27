@@ -1,32 +1,30 @@
 <template>
   <header class="header">
-    <!-- 头部的第一行 -->
+    <!-- 整个头部上面的一行 -->
     <div class="header_top">
       <div class="container">
         <div class="header_loginList">
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <router-link to="/login">登录</router-link>
+            <router-link to="/login" class="login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
         </div>
         <div class="header_typeList">
-          <ul>
-            <li><router-link>我的订单</router-link></li>
-            <li><a>我的购物车</a></li>
-            <li><a>我的尚品汇</a></li>
-            <li><a>尚品汇会员</a></li>
-            <li><a>企业采购</a></li>
-            <li><a>关注尚品汇</a></li>
-            <li><a>合作招商</a></li>
-            <li><a>商家后台</a></li>
-          </ul>
+          <a href="###">我的订单</a>
+          <a href="###">我的购物车</a>
+          <a href="###">我的尚品汇</a>
+          <a href="###">尚品汇会员</a>
+          <a href="###">企业采购</a>
+          <a href="###">关注尚品汇</a>
+          <a href="###">合作招商</a>
+          <a href="###">商家后台</a>
         </div>
       </div>
     </div>
-    <!--头部第二行 搜索区域-->
-    <div class="bottom">
+    <!--整个头部第二行 搜索区域-->
+    <div class="header_bottom">
       <h1 class="bottom_logoArea">
         <router-link class="logo" title="尚品汇" to="/">
           <img src="./logo.png" alt="" />
@@ -51,6 +49,11 @@
 <script>
 export default {
   name: "Header",
+  methods:{
+    search(){
+      this.$router.push("/search")
+    }
+  }
 };
 </script>
 
@@ -66,12 +69,20 @@ export default {
   line-height: 30px;
 }
 .header_top {
+  background-color: #eaeaea;
   width: 1200px;
   margin: 0 auto;
+  overflow: hidden;
 }
 .container {
   display: flex;
   justify-content: space-between;
+  a:hover{
+      color:red;
+      text-decoration: none;
+  }
+}
+.header_loginList {
   p {
     float: left;
     margin-right: 10px;
@@ -79,28 +90,33 @@ export default {
       border-left: 1px solid #b3aeae;
       padding: 0 5px;
       margin-left: 5px;
+      &:hover{
+        color: red;
+        text-decoration: none;
+      }
+    }
+    .login:hover {
+      color: red;
+      text-decoration: none;
     }
   }
 }
-.header_loginList {
-  margin-left: 20px;
-}
-.header_typeList {
-  display: flex;
-  ul {
-    display: flex;
-    li {
-      margin-left: 10px;
+.container .header_typeList {
+  float: right;
+  a {
+    color: #666;
+    padding: 0 10px;
+    & + a {
+      border-left: 1px solid #b3aeae;
     }
   }
 }
-.bottom {
+.header_bottom {
   width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   .bottom_logoArea {
-    display: flex;
     .logo {
       img {
         width: 175px;
@@ -108,15 +124,14 @@ export default {
       }
     }
   }
-  .bottom_searchArea {
-    display: flex;
+.bottom_searchArea {
     margin-top: 35px;
     input {
+      float: left;
       box-sizing: border-box;
       width: 490px;
       height: 32px;
       border: 2px solid #ea4a36;
-      float:left;
       outline: none;
     }
     button {
@@ -125,7 +140,6 @@ export default {
       background-color: #ea4a36;
       border: none;
       color: #fff;
-      float: left;
       cursor: pointer;
       outline: none;
     }
