@@ -1,9 +1,9 @@
 <template>
   <header class="header">
     <!-- 整个头部上面的一行 -->
-    <div class="header_top">
+    <div class="header-top">
       <div class="container">
-        <div class="header_loginList">
+        <div class="header-loginList">
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
@@ -11,7 +11,7 @@
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
         </div>
-        <div class="header_typeList">
+        <div class="header-typeList">
           <a href="###">我的订单</a>
           <a href="###">我的购物车</a>
           <a href="###">我的尚品汇</a>
@@ -24,20 +24,16 @@
       </div>
     </div>
     <!--整个头部第二行 搜索区域-->
-    <div class="header_bottom">
-      <h1 class="bottom_logoArea">
+    <div class="header-bottom">
+      <h1 class="bottom-logoArea">
         <router-link class="logo" title="尚品汇" to="/">
           <img src="./logo.png" alt="" />
         </router-link>
       </h1>
-      <div class="bottom_searchArea">
-        <form action="###" class="searchForm">
-          <input type="text" />
-          <button
-            @click="search"
-            class="sui-btn btn-xlarge btn-danger"
-            type="button"
-          >
+      <div class="bottom-searchArea">
+        <form action="###" class="searchForm" @submit.prevent="search">
+          <input type="text" v-model="searchText" />
+          <button class="sui-btn btn-xlarge btn-danger">
             搜索
           </button>
         </form>
@@ -49,11 +45,24 @@
 <script>
 export default {
   name: "Header",
-  methods:{
-    search(){
-      this.$router.push("/search")
-    }
-  }
+  data() {
+    return {
+      searchText: "",
+    };
+  },
+  methods: {
+    search() {
+      const {searchText} = this;
+      const location = "/search" + (searchText ? `/${searchText}`:'') 
+      const p = this.$router.push(location);
+      // p.then((res)=>{
+      //   console.log(res+"成功")
+      // }).catch((err)=>{
+      //   console.log(err)
+      // })
+      console.log(p)
+    },
+  },
 };
 </script>
 
@@ -64,25 +73,25 @@ export default {
   padding: 0;
 }
 .header {
+  width: 100%;
+}
+.header-top {
   background-color: #eaeaea;
+  width: 100%;
   height: 30px;
   line-height: 30px;
 }
-.header_top {
-  background-color: #eaeaea;
+.container {
   width: 1200px;
   margin: 0 auto;
-  overflow: hidden;
-}
-.container {
   display: flex;
   justify-content: space-between;
-  a:hover{
-      color:red;
-      text-decoration: none;
+  a:hover {
+    color: red;
+    text-decoration: none;
   }
 }
-.header_loginList {
+.header-loginList {
   p {
     float: left;
     margin-right: 10px;
@@ -90,33 +99,24 @@ export default {
       border-left: 1px solid #b3aeae;
       padding: 0 5px;
       margin-left: 5px;
-      &:hover{
-        color: red;
-        text-decoration: none;
-      }
-    }
-    .login:hover {
-      color: red;
-      text-decoration: none;
     }
   }
 }
-.container .header_typeList {
+.container .header-typeList {
   float: right;
   a {
-    color: #666;
     padding: 0 10px;
     & + a {
       border-left: 1px solid #b3aeae;
     }
   }
 }
-.header_bottom {
+.header-bottom {
   width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  .bottom_logoArea {
+  .bottom-logoArea {
     .logo {
       img {
         width: 175px;
@@ -124,7 +124,7 @@ export default {
       }
     }
   }
-.bottom_searchArea {
+  .bottom-searchArea {
     margin-top: 35px;
     input {
       float: left;
