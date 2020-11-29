@@ -7,6 +7,7 @@ import Home from "../views/Home/index.vue";
 import Login from "../views/Login/index.vue";
 import Register from "../views/Register/index.vue";
 import Search from "../views/Search/index.vue";
+
 console.log(VueRouter.prototype);
 //重写router的push和replace
 const push = VueRouter.prototype.push;

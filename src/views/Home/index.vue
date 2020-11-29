@@ -1,15 +1,18 @@
 <template>
-  <div>
-      Home...
+  <div class="home-outer">
+    <TypeNav></TypeNav>
   </div>
 </template>
 
 <script>
+import TypeNav from "@comps/TypeNav";
 export default {
-  name: 'Home',
-}
+  name: "Home",
+  components: {
+    TypeNav,
+  },
+};
 </script>
 
 <style lang="less" scoped>
-
 </style>
