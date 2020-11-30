@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import {mapState,mapActions} from "vuex"
 export default {
   name: "ListContainer",
   data() {
@@ -108,11 +109,20 @@ export default {
       },
     };
   },
+  computed:{
+    ...mapState({
+      banners:(state)=>state.home.banners
+    })
+  },
+  methods:{
+    ...mapActions(["getBanners"])
+  },
   mounted() {
     console.log("Current Swiper instance object", this.mySwiper);
     this.mySwiper.slideTo(3, 1000, false);
-  },
-};
+    this.getBanners()
+  }
+}
 </script>
 
 <style lang="less" scoped>
