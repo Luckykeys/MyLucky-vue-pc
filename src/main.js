@@ -1,6 +1,7 @@
 // @ts-nocheck
 import Vue from "vue";
 import App from "./App.vue";
+import store from "@store/index.js"
 //引入Swiper轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
@@ -19,5 +20,6 @@ Vue.config.productionTip = false;
 // console.log(router)
 new Vue({
     render:(h)=>h(App),
-    router
+    router,
+    store
 }).$mount("#app")

@@ -54,20 +54,22 @@
 </template>
 
 <script>
-import { reqGetBaseCategory } from "@api/home.js";
+import {mapState,mapActions} from "vuex"
 export default {
   name: "TypeNav",
-  data() {
-    return {
-      //定义响应数据
-      categoryList: [],
-    };
+  computed:{
+    // ...mapState(["categoryList"])
+    ...mapState({
+      categoryList:(state)=>(state.home.categoryList)
+    })
   },
-  async mounted() {
-    const result = await reqGetBaseCategory();
-    console.log(result);
-    this.categoryList = result.slice(0, 15);
+  methods:{
+    ...mapActions(["getCategoryList"])
   },
+  mounted(){
+    //发送请求还是再mounted中调用
+    this.getCategoryList()
+  }
 };
 </script>
 
