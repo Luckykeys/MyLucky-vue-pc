@@ -49,7 +49,8 @@ export default new VueRouter({
         isFooterHiden: true,
       },
     },
-    {
+    { 
+      name:"search",
       path: "/search/:searchText?",
       component: Search,
     },

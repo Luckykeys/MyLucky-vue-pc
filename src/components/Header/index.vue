@@ -33,9 +33,7 @@
       <div class="bottom-searchArea">
         <form action="###" class="searchForm" @submit.prevent="search">
           <input type="text" v-model="searchText" />
-          <button class="sui-btn btn-xlarge btn-danger">
-            搜索
-          </button>
+          <button class="sui-btn btn-xlarge btn-danger">搜索</button>
         </form>
       </div>
     </div>
@@ -52,15 +50,33 @@ export default {
   },
   methods: {
     search() {
-      const {searchText} = this;
-      const location = "/search" + (searchText ? `/${searchText}`:'') 
-      const p = this.$router.push(location);
-      // p.then((res)=>{
+      const { searchText } = this;
+      // const location = "/search" + (searchText ? `/${searchText}`:'')
+      // console.log(location)
+      const location = {
+        name: "search",
+        params: {
+          searchText: searchText,
+        },
+      };
+      this.$router.push(location);
+      // then((res)=>{
       //   console.log(res+"成功")
       // }).catch((err)=>{
       //   console.log(err)
       // })
-      console.log(p)
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+
+      //添加query参数
+      const { categoryName } = this.$route.query;
+      console.log(this.$route.query);
+      if(categoryName){
+        location.query = this.$route.query;
+      }
     },
   },
 };
