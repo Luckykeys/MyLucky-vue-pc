@@ -1,21 +1,24 @@
 <template>
   <div class="list-container">
     <div class="sortList clearfix">
-      <div class="center">
-        <!--banner轮播-->
-        <div v-swiper:mySwiper="swiperOption">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" :key="banner" v-for="banner in banners">
-              <img :src="banner" />
+        <div class="center">
+          <!--banner轮播-->
+          <div class="swiper-container">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
+                  <img :src="banner.imgUrl" alt="">
+                </div>
             </div>
-          </div>
-          <div class="swiper-pagination"></div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
 
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
         </div>
-      </div>
       <div class="right">
         <div class="news">
           <h4>
@@ -90,39 +93,48 @@
 </template>
 
 <script>
-import {mapState,mapActions} from "vuex"
+//1.先引入swiper的两个文件
+import Swiper ,{ Autoplay, Navigation, Pagination } from "swiper";
+import "swiper/swiper-bundle.min.css";
+//使用这两个插件，因为swiper6默认书没有其他的分页器之类的文件
+Swiper.use([Navigation, Pagination,Autoplay])
+import { mapState, mapActions } from "vuex";
 export default {
   name: "ListContainer",
-  data() {
-    return {
-      banners: [
-        "./images/banner1.jpg",
-        "./images/banner2.jpg",
-        "./images/banner3.jpg",
-        "./images/banner4.jpg",
-      ],
-      swiperOption: {
+
+  computed: {
+    ...mapState({
+      banners: (state) => state.home.banners,
+    }),
+  },
+  methods: {
+    ...mapActions(["getBanners"]),
+  },
+  async mounted() {
+    //只有等数据加载完和DOM结构生成后，new Swiper的前提：必须先生成相应的DOM结构
+    await this.getBanners();
+
+    this.$nextTick(()=>{
+      new Swiper(".swiper-container", {
+        loop: true, // 循环模式选项
+        autoplay:{
+          delay:5000,//轮播间隔时间
+          disableOnInteraction:false // 
+        },
+        // 如果需要分页器
         pagination: {
           el: ".swiper-pagination",
         },
-        // ...
-      },
-    };
-  },
-  computed:{
-    ...mapState({
-      banners:(state)=>state.home.banners
+
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
     })
   },
-  methods:{
-    ...mapActions(["getBanners"])
-  },
-  mounted() {
-    console.log("Current Swiper instance object", this.mySwiper);
-    this.mySwiper.slideTo(3, 1000, false);
-    this.getBanners()
-  }
-}
+};
 </script>
 
 <style lang="less" scoped>

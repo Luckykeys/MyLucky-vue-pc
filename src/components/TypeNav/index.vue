@@ -150,7 +150,7 @@ export default {
   },
   mounted() {
     //减少请求的次数
-    if(this.categoryList.length) return;
+    if (this.categoryList.length) return;
     //发送请求还是再mounted中调用
     this.getCategoryList();
     // console.log(this)
@@ -240,7 +240,10 @@ export default {
           top: 0;
           display: none;
           width: 650px;
-          padding: 0 4px 0 8px;
+          background-color: #eee;
+          width: 735px;
+          height: 462px;
+          border: 1px solid #eee;
 
           dl {
             border-top: 1px solid #eee;
