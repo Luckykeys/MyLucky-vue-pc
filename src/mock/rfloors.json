@@ -10,10 +10,10 @@
           "text": "@ctitle(2,4)"
         }
       ],
-      "carouselList": [
+      "carouselList|3": [
         {
           "id|+1":1,
-          "imgUrl": "@image('330x360', '@color')"
+          "imgUrl": "@image('330x360','@color')"
         }
       ],
       "recommendList|4": ["@image('200x200'),'@color'" ],
