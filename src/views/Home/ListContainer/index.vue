@@ -3,21 +3,18 @@
     <div class="sortList clearfix">
         <div class="center">
           <!--banner轮播-->
-          <div class="swiper-container">
-            <!-- Additional required wrapper -->
+          <!-- <div class="swiper-container">
             <div class="swiper-wrapper">
-                <!-- Slides -->
                 <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
                   <img :src="banner.imgUrl" alt="">
                 </div>
             </div>
-            <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
 
-            <!-- If we need navigation buttons -->
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
-          </div>
+          </div> -->
+          <Carousel :carouselList="banners"></Carousel>
         </div>
       <div class="right">
         <div class="news">
@@ -93,15 +90,18 @@
 </template>
 
 <script>
-//1.先引入swiper的两个文件
-import Swiper ,{ Autoplay, Navigation, Pagination } from "swiper";
-import "swiper/swiper-bundle.min.css";
-//使用这两个插件，因为swiper6默认书没有其他的分页器之类的文件
-Swiper.use([Navigation, Pagination,Autoplay])
+import Carousel from '@comps/Carousel'
+// //1.先引入swiper的两个文件
+// import Swiper ,{ Autoplay, Navigation, Pagination } from "swiper";
+// import "swiper/swiper-bundle.min.css";
+// //使用这两个插件，因为swiper6默认书没有其他的分页器之类的文件
+// Swiper.use([Navigation, Pagination,Autoplay])
 import { mapState, mapActions } from "vuex";
 export default {
   name: "ListContainer",
-
+  components:{
+    Carousel
+  },
   computed: {
     ...mapState({
       banners: (state) => state.home.banners,
@@ -114,25 +114,26 @@ export default {
     //只有等数据加载完和DOM结构生成后，new Swiper的前提：必须先生成相应的DOM结构
     await this.getBanners();
 
-    this.$nextTick(()=>{
-      new Swiper(".swiper-container", {
-        loop: true, // 循环模式选项
-        autoplay:{
-          delay:5000,//轮播间隔时间
-          disableOnInteraction:false // 
-        },
-        // 如果需要分页器
-        pagination: {
-          el: ".swiper-pagination",
-        },
+    // this.$nextTick(()=>{
+    //   new Swiper(".swiper-container", {
+    //     loop: true, // 循环模式选项
+    //     autoplay:{
+    //       delay:5000,//轮播间隔时间
+    //       disableOnInteraction:false // 
+    //     },
+    //     // 如果需要分页器
+    //     pagination: {
+    //       el: ".swiper-pagination",
+    //       clickable:true
+    //     },
 
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
-    })
+    //     // 如果需要前进后退按钮
+    //     navigation: {
+    //       nextEl: ".swiper-button-next",
+    //       prevEl: ".swiper-button-prev",
+    //     },
+    //   });
+    // })
   },
 };
 </script>

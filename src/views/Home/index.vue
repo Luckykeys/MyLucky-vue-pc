@@ -4,6 +4,7 @@
     <ListContainer></ListContainer>
     <TodayRecommended></TodayRecommended>
     <Rank></Rank>
+    <Like></Like>
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import TypeNav from "@comps/TypeNav";
 import ListContainer from "./ListContainer"
 import TodayRecommended from "./TodayRecommended"
 import Rank from "./Rank"
+import Like from "./Like/Like"
 // import 
 export default {
   name: "Home",
@@ -19,7 +21,8 @@ export default {
     TypeNav,
     ListContainer,
     TodayRecommended,
-    Rank
+    Rank,
+    Like
   },
 };
 </script>
