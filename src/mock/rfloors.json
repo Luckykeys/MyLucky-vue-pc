@@ -16,7 +16,7 @@
           "imgUrl": "@image('330x360','@color')"
         }
       ],
-      "recommendList|4": ["@image('200x200'),'@color'" ],
+      "recommendList|4": ["@image('200x200','@color')"],
       "bigImg": "@image('220x360','@color')"
     }
   ]
