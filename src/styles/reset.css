@@ -1,4 +1,4 @@
- 
+
 /* 清除内外边距 */
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
 dl, dt, dd, ul, ol, li,
@@ -62,7 +62,7 @@ hr {
 html { overflow-y: scroll; }
 
 a:link:hover{
-    color : red !important;
+    color : rgb(79, 76, 212) !important;
     text-decoration: underline;
 }
 

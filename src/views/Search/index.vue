@@ -24,8 +24,14 @@
             <li class="with-x" @click="delTrademark" v-show="options.trademark">
               品牌:{{ options.trademark.split(":")[1] }}<i>×</i>
             </li>
-            <li class="with-x" v-show="options.props" v-for="(props,index) in options.props" :key="props" @click="delProps(index)">
-              {{props.split(":")[2]}}:{{props.split(":")[1]}}<i>×</i>
+            <li
+              class="with-x"
+              v-show="options.props"
+              v-for="(props, index) in options.props"
+              :key="props"
+              @click="delProps(index)"
+            >
+              {{ props.split(":")[2] }}:{{ props.split(":")[1] }}<i>×</i>
             </li>
           </ul>
         </div>
@@ -39,22 +45,25 @@
             <div class="navbar-inner filter">
               <ul class="sui-nav">
                 <li class="active">
-                  <a href="#">综合</a>
+                  <a>综合<i class="iconfont icon-direction-down"></i></a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
+                  <a>销量</a>
                 </li>
                 <li>
-                  <a href="#">新品</a>
+                  <a>新品</a>
                 </li>
                 <li>
-                  <a href="#">评价</a>
+                  <a>评价</a>
                 </li>
                 <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                  <a
+                    >价格
+                    <span>
+                      <i class="iconfont icon-arrow-up-filling"></i>
+                      <i class="iconfont icon-arrow-down-filling"></i>
+                    </span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -232,11 +241,11 @@ export default {
       this.updateProductList();
     },
     //删除商品属性的相关信息
-    delProps(index){
+    delProps(index) {
       //用下标来表示删除的这个
-      this.options.props.splice(index,1)
-      this.updateProductList()
-    }
+      this.options.props.splice(index, 1);
+      this.updateProductList();
+    },
   },
   mounted() {
     this.updateProductList();
@@ -344,13 +353,20 @@ export default {
             li {
               float: left;
               line-height: 18px;
-
               a {
-                display: block;
+                display: flex;
                 cursor: pointer;
                 padding: 11px 15px;
                 color: #777;
                 text-decoration: none;
+                span {
+                  display: flex;
+                  flex-direction: column;
+                  line-height: 11px;
+                  i{
+                    font-size:12px;
+                  }
+                }
               }
 
               &.active {
