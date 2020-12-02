@@ -11,10 +11,14 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" @click="delKeyword" v-show="options.keyword">{{ options.keyword }}<i>×</i></li>
+            <li
+              class="with-x"
+              @click="delCategoryName"
+              v-show="options.categoryName"
+            >
+              {{ options.categoryName }}<i>×</i>
+            </li>
           </ul>
         </div>
 
@@ -59,7 +63,7 @@
                   <div class="price">
                     <strong>
                       <em>¥</em>
-                      <i>{{goods.price}}</i>
+                      <i>{{ goods.price }}</i>
                     </strong>
                   </div>
                   <div class="attr">
@@ -67,7 +71,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{goods.title}}</a
+                      >{{ goods.title }}</a
                     >
                   </div>
                   <div class="commit">
@@ -124,11 +128,27 @@
 </template>
 
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import TypeNav from "@comps/TypeNav";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
+  data() {
+    return {
+      options: {
+        category1Id: " ",
+        category2Id: " ",
+        category3Id: " ",
+        categoryName: " ",
+        keyword: " ",
+        order: " ",
+        pageNo: 1,
+        pageSize: 5,
+        props: [],
+        trademark: " ",
+      },
+    };
+  },
   components: {
     SearchSelector,
     TypeNav,
@@ -136,12 +156,61 @@ export default {
   computed: {
     ...mapGetters(["goodsList"]),
   },
-  methods:{
-    ...mapActions(["getProductList"])
+  watch: {
+    //监视$route其实是监视里面的path属性
+    $route() {
+      this.updateProductList();
+    },
   },
-  mounted(){
-    this.getProductList()
-  }
+  methods: {
+    ...mapActions(["getProductList"]),
+    updateProductList() {
+      //获取的是params参数
+      const { searchText: keyword } = this.$route.params;
+      //获取query参数
+      const {
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      } = this.$route.query;
+      const options = {
+        ...this.options,
+        keyword,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      };
+      this.options = options;
+      this.getProductList(options);
+    },
+    delKeyword() {
+      this.options.keyword = "";
+      //跳转之前清空输入框
+      this.$bus.$emit("clearKeyword")
+      //一旦删除就重新跳转
+      this.$router.push({
+        name:"search",
+        query:this.$route.query
+      })
+    },
+    delCategoryName() {
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+      this.options.categoryName = "";
+
+      //一旦删除就重新跳转
+      this.$router.push({
+        name:"search",
+        params:this.$route.params
+      })
+    },
+  },
+  mounted() {
+    this.updateProductList();
+  },
 };
 </script>
 

@@ -48,7 +48,7 @@ export default {
         loop: true, // 循环模式选项
         autoplay: {
           delay: 5000, //轮播间隔时间
-          disableOnInteraction: false, //
+          disableOnInteraction: false, //当用户点击下一页时，仍会开启自动轮播
         },
         // 如果需要分页器
         pagination: {

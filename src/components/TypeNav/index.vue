@@ -91,7 +91,7 @@
                               category3Id: endChild.categoryId,
                             },})">{{ endChild.categoryName }}</a> -->
                         <a
-                          data-categoryName="endChild.categoryName"
+                          :data-categoryName="endChild.categoryName"
                           :data-categoryId="endChild.categoryId"
                           :data-categoryType="3"
                         >
@@ -134,11 +134,15 @@ export default {
     toSearch(e) {
       // console.log(e.target.dataset);
       const { categoryid, categoryname, categorytype } = e.target.dataset;
+      //判断是否点击的是a标签
+      if(!categoryname) return;
+      //切换到search页面的时候应该隐藏分类列表
+      this.isSearchShow = false;
       const location = {
         name: "search",
         query: {
-          categoryname: categoryname,
-          [`category${categorytype}id`]: categoryid,
+          categoryName: categoryname,
+          [`category${categorytype}Id`]: categoryid,
         },
       };
       const { searchText } = this.$route.params;

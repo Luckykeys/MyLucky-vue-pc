@@ -55,11 +55,7 @@ export default {
       // console.log(location)
       const location = {
         name: "search",
-        params: {
-          searchText: searchText,
-        },
       };
-      this.$router.push(location);
       // then((res)=>{
       //   console.log(res+"成功")
       // }).catch((err)=>{
@@ -73,11 +69,18 @@ export default {
 
       //添加query参数
       const { categoryName } = this.$route.query;
-      console.log(this.$route.query);
-      if(categoryName){
+      // console.log(this.$route.query);
+      if (categoryName) {
         location.query = this.$route.query;
       }
+      //应该收集完参数才进行跳转
+      this.$router.push(location);
     },
+  },
+  mounted() {
+    this.$bus.$on("clearKeyword", () => {
+      this.searchText = "";
+    });
   },
 };
 </script>
