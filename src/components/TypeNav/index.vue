@@ -135,7 +135,7 @@ export default {
       // console.log(e.target.dataset);
       const { categoryid, categoryname, categorytype } = e.target.dataset;
       //判断是否点击的是a标签
-      if(!categoryname) return;
+      if (!categoryname) return;
       //切换到search页面的时候应该隐藏分类列表
       this.isSearchShow = false;
       const location = {
@@ -149,7 +149,13 @@ export default {
       if (searchText) {
         location.params = { searchText };
       }
-      this.$router.push(location);
+
+      if (this.$route.path.indexOf("/search") > -1) {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
+      // this.$router.push(location);
     },
   },
   mounted() {

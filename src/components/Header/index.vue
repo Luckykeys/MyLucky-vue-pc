@@ -73,8 +73,14 @@ export default {
       if (categoryName) {
         location.query = this.$route.query;
       }
+
+      if (this.$route.path.indexOf("/search") > -1) {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
       //应该收集完参数才进行跳转
-      this.$router.push(location);
+      // this.$router.push(location);
     },
   },
   mounted() {
