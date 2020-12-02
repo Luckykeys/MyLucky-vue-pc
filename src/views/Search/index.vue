@@ -11,19 +11,27 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x" @click="delKeyword" v-show="options.keyword">{{ options.keyword }}<i>×</i></li>
+            <li class="with-x" @click="delKeyword" v-show="options.keyword">
+              关键字:{{ options.keyword }}<i>×</i>
+            </li>
             <li
               class="with-x"
               @click="delCategoryName"
               v-show="options.categoryName"
             >
-              {{ options.categoryName }}<i>×</i>
+              分类名称:{{ options.categoryName }}<i>×</i>
+            </li>
+            <li class="with-x" @click="delTrademark" v-show="options.trademark">
+              品牌:{{ options.trademark.split(":")[1] }}<i>×</i>
+            </li>
+            <li class="with-x" v-show="options.props" v-for="(props,index) in options.props" :key="props" @click="delProps(index)">
+              {{props.split(":")[2]}}:{{props.split(":")[1]}}<i>×</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :addTrademark="addTrademark" @add-props="addProps" />
 
         <!--details-->
         <div class="details clearfix">
@@ -188,12 +196,12 @@ export default {
     delKeyword() {
       this.options.keyword = "";
       //跳转之前清空输入框
-      this.$bus.$emit("clearKeyword")
+      this.$bus.$emit("clearKeyword");
       //一旦删除就重新跳转
       this.$router.push({
-        name:"search",
-        query:this.$route.query
-      })
+        name: "search",
+        query: this.$route.query,
+      });
     },
     delCategoryName() {
       this.options.category1Id = "";
@@ -203,10 +211,32 @@ export default {
 
       //一旦删除就重新跳转
       this.$router.push({
-        name:"search",
-        params:this.$route.params
-      })
+        name: "search",
+        params: this.$route.params,
+      });
     },
+    //定义一个子组件点击品牌可以获取数据的函数
+    addTrademark(trademark) {
+      this.options.trademark = trademark;
+      this.updateProductList();
+    },
+    //删除品牌的信息
+    delTrademark() {
+      this.options.trademark = "";
+      this.updateProductList();
+    },
+    //定义一个子组件点击分类名称可以获取数据的函数
+    addProps(props) {
+      //使用数组的push方法
+      this.options.props.push(props);
+      this.updateProductList();
+    },
+    //删除商品属性的相关信息
+    delProps(index){
+      //用下标来表示删除的这个
+      this.options.props.splice(index,1)
+      this.updateProductList()
+    }
   },
   mounted() {
     this.updateProductList();
