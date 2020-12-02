@@ -44,7 +44,7 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
+                <li :class="{active: options.order.indexOf('1') > -1}" @click="setOrder('1')">
                   <a>综合<i class="iconfont icon-direction-down"></i></a>
                 </li>
                 <li>
@@ -56,7 +56,7 @@
                 <li>
                   <a>评价</a>
                 </li>
-                <li>
+                <li :class="{active:options.order.indexOf('2') > -1}" @click="setOrder('2')">
                   <a
                     >价格
                     <span>
@@ -158,7 +158,7 @@ export default {
         category3Id: " ",
         categoryName: " ",
         keyword: " ",
-        order: " ",
+        order: "1:desc",
         pageNo: 1,
         pageSize: 5,
         props: [],
@@ -246,6 +246,12 @@ export default {
       this.options.props.splice(index, 1);
       this.updateProductList();
     },
+    //点击切换
+    setOrder(order){
+      let [orderNum , orderType] = this.options.order.split(":");
+      console.log(orderNum , orderType,order)
+      this.options.order = `${order}:${orderType}`
+    }
   },
   mounted() {
     this.updateProductList();
@@ -362,7 +368,7 @@ export default {
                 span {
                   display: flex;
                   flex-direction: column;
-                  line-height: 11px;
+                  line-height:9px;
                   i{
                     font-size:12px;
                   }
