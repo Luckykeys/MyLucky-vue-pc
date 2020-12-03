@@ -79,14 +79,16 @@
                         :class="{
                           iconfont: true,
                           'icon-arrow-up-filling': true,
-                          deactive:options.order.indexOf('2') > -1 && isPriceDown,
+                          deactive:
+                            options.order.indexOf('2') > -1 && isPriceDown,
                         }"
                       ></i>
                       <i
                         :class="{
                           iconfont: true,
                           'icon-arrow-down-filling': true,
-                           deactive:options.order.indexOf('2') > -1 && !isPriceDown,
+                          deactive:
+                            options.order.indexOf('2') > -1 && !isPriceDown,
                         }"
                       ></i>
                     </span>
@@ -136,35 +138,24 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="5"
+            background
+            layout="
+              prev,
+              pager, 
+              next, 
+              total, 
+              sizes, 
+              jumper"
+            :total="total"
+          >
+          </el-pagination>
         </div>
       </div>
     </div>
@@ -200,7 +191,7 @@ export default {
     TypeNav,
   },
   computed: {
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList","total"]),
   },
   watch: {
     //监视$route其实是监视里面的path属性
@@ -210,7 +201,7 @@ export default {
   },
   methods: {
     ...mapActions(["getProductList"]),
-    updateProductList() {
+    updateProductList(pageNo=1) {//默认除了点击分页器的时候其他点击的时候都应该跳转到第一页
       //获取的是params参数
       const { searchText: keyword } = this.$route.params;
       //获取query参数
@@ -227,6 +218,7 @@ export default {
         category2Id,
         category3Id,
         categoryName,
+        pageNo
       };
       this.options = options;
       this.getProductList(options);
@@ -297,18 +289,32 @@ export default {
           //如果点击综合的时候前一次不是综合，则应该先激活综合的排序应该为默认的降序图标
           this.isAllDown = true;
           //保留上一次的图标的箭头
-          orderType = orderType === "desc" ? "desc":"asc"
+          orderType = orderType === "desc" ? "desc" : "asc";
         } else {
           //进到这里表示的是点击的是价格标签，但是上一次是综合标签，即两次点击时不一样的
           //价格标题默认为升序的图标，即下面的小箭头高亮
           this.isPriceDown = false;
           //默认
-          orderType = "asc"
+          orderType = "asc";
         }
       }
       this.options.order = `${order}:${orderType}`;
       //发送请求
-      this.updateProductList()
+      this.updateProductList();
+    },
+    //点击选择每页多少条的时候触发
+    handleSizeChange(pageSize) {
+      // console.log("pageSize", pageSize);
+      this.options.pageSize = pageSize;
+      //再重新发送请求
+      this.updateProductList();
+    },
+    //点击当前为第几页的时候触发
+    handleCurrentChange(pageNo) {
+      // console.log("pageNo", pageNo);
+      // this.options.pageNo = pageNo;
+      //再重新发送请求
+      this.updateProductList(pageNo);
     },
   },
   mounted() {
@@ -429,8 +435,8 @@ export default {
                   line-height: 9px;
                   i {
                     font-size: 12px;
-                    &.deactive{
-                      color: rgba(255,255,255,0.5);
+                    &.deactive {
+                      color: rgba(255, 255, 255, 0.5);
                     }
                   }
                 }
