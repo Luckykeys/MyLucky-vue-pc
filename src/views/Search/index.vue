@@ -143,7 +143,7 @@
             @current-change="handleCurrentChange"
             :current-page="options.pageNo"
             :pager-count="7"
-            :page-sizes="[5, 10, 15, 20]"
+            :page-sizes="[3, 5, 7, 10]"
             :page-size="5"
             background
             layout="
@@ -180,7 +180,7 @@ export default {
         pageNo: 1,
         pageSize: 5,
         props: [],
-        trademark: " ",
+        trademark: "",
       },
       isAllDown: true,
       isPriceDown: false,
