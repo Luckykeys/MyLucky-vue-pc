@@ -44,8 +44,19 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li :class="{active: options.order.indexOf('1') > -1}" @click="setOrder('1')">
-                  <a>综合<i class="iconfont icon-direction-down"></i></a>
+                <li
+                  :class="{ active: options.order.indexOf('1') > -1 }"
+                  @click="setOrder('1')"
+                >
+                  <a
+                    >综合<i
+                      :class="{
+                        iconfont: true,
+                        'icon-direction-down': isAllDown,
+                        'icon-direction-up': !isAllDown,
+                      }"
+                    ></i
+                  ></a>
                 </li>
                 <li>
                   <a>销量</a>
@@ -56,12 +67,28 @@
                 <li>
                   <a>评价</a>
                 </li>
-                <li :class="{active:options.order.indexOf('2') > -1}" @click="setOrder('2')">
+                <li
+                  :class="{ active: options.order.indexOf('2') > -1 }"
+                  @click="setOrder('2')"
+                >
                   <a
                     >价格
                     <span>
-                      <i class="iconfont icon-arrow-up-filling"></i>
-                      <i class="iconfont icon-arrow-down-filling"></i>
+                      <!-- options.order.indexOf('2') > -1 && isPriceDown 前面是错误的的直接不看后面的，就是如果点击的不是价格标题则默认是高亮下面的 -->
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-arrow-up-filling': true,
+                          deactive:options.order.indexOf('2') > -1 && isPriceDown,
+                        }"
+                      ></i>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-arrow-down-filling': true,
+                           deactive:options.order.indexOf('2') > -1 && !isPriceDown,
+                        }"
+                      ></i>
                     </span>
                   </a>
                 </li>
@@ -164,6 +191,8 @@ export default {
         props: [],
         trademark: " ",
       },
+      isAllDown: true,
+      isPriceDown: false,
     };
   },
   components: {
@@ -246,12 +275,41 @@ export default {
       this.options.props.splice(index, 1);
       this.updateProductList();
     },
-    //点击切换
-    setOrder(order){
-      let [orderNum , orderType] = this.options.order.split(":");
-      console.log(orderNum , orderType,order)
-      this.options.order = `${order}:${orderType}`
-    }
+    //点击切换升序降序
+    setOrder(order) {
+      let [orderNum, orderType] = this.options.order.split(":");
+      // console.log(orderNum, orderType, order);
+      //order === orderNum表示的是两次都是点击的同一个标题，所以需要取反
+      if (order === orderNum) {
+        //判断点击的是否是综合还是价格标题
+        //order--->1的时候是综合排序，order--->2的时候是价格排序
+        if (order === "1") {
+          this.isAllDown = !this.isAllDown;
+        } else {
+          this.isPriceDown = !this.isPriceDown;
+        }
+        //如果之前是降序则点击后是升序，取反
+        orderType = orderType === "desc" ? "asc" : "desc";
+      } else {
+        //进到这个里面表示的是点击的两次不是同一个标题
+        //再次判断点击的是综合排序还是价格排序
+        if (order === "1") {
+          //如果点击综合的时候前一次不是综合，则应该先激活综合的排序应该为默认的降序图标
+          this.isAllDown = true;
+          //保留上一次的图标的箭头
+          orderType = orderType === "desc" ? "desc":"asc"
+        } else {
+          //进到这里表示的是点击的是价格标签，但是上一次是综合标签，即两次点击时不一样的
+          //价格标题默认为升序的图标，即下面的小箭头高亮
+          this.isPriceDown = false;
+          //默认
+          orderType = "asc"
+        }
+      }
+      this.options.order = `${order}:${orderType}`;
+      //发送请求
+      this.updateProductList()
+    },
   },
   mounted() {
     this.updateProductList();
@@ -368,9 +426,12 @@ export default {
                 span {
                   display: flex;
                   flex-direction: column;
-                  line-height:9px;
-                  i{
-                    font-size:12px;
+                  line-height: 9px;
+                  i {
+                    font-size: 12px;
+                    &.deactive{
+                      color: rgba(255,255,255,0.5);
+                    }
                   }
                 }
               }
