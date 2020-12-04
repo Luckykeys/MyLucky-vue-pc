@@ -7,6 +7,8 @@ import Home from "../views/Home/index.vue";
 import Login from "../views/Login/index.vue";
 import Register from "../views/Register/index.vue";
 import Search from "../views/Search/index.vue";
+import Detail from "../views/Detail/index.vue";
+
 
 console.log(VueRouter.prototype);
 //重写router的push和replace
@@ -28,6 +30,7 @@ VueRouter.prototype.replace = function(location, onComplete, onAbort) {
 Vue.use(VueRouter);
 // 通过new VueRouter来创建router实例
 export default new VueRouter({
+  //路由配置
   routes: [
     {
       path: "/",
@@ -51,10 +54,18 @@ export default new VueRouter({
         isFooterHiden: true,
       },
     },
-    { 
-      name:"search",
+    {
+      name: "search",
       path: "/search/:searchText?",
       component: Search,
     },
+    {
+      name: "detail",
+      path: "/detail/:id",
+      component: Detail,
+    },
   ],
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
 });
