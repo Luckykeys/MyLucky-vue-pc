@@ -24,7 +24,9 @@ VueRouter.prototype.replace = function(location, onComplete, onAbort) {
   }
   return replace.call(this, location, onComplete, () => {});
 };
+
 Vue.use(VueRouter);
+// 通过new VueRouter来创建router实例
 export default new VueRouter({
   routes: [
     {
