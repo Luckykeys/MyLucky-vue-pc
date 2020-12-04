@@ -148,7 +148,13 @@
             :total="total"
           >
           </el-pagination> -->
-          <Pagination></Pagination>
+          <Pagination
+            @current-change="handleCurrentChange"
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-size="5"
+            :total="total"
+          ></Pagination>
         </div>
       </div>
     </div>
@@ -159,7 +165,7 @@
 import { mapGetters, mapActions } from "vuex";
 import TypeNav from "@comps/TypeNav";
 import SearchSelector from "./SearchSelector/SearchSelector";
-import Pagination from "@comps/Pagination"
+import Pagination from "@comps/Pagination";
 export default {
   name: "Search",
   data() {
@@ -183,7 +189,7 @@ export default {
   components: {
     SearchSelector,
     TypeNav,
-    Pagination
+    Pagination,
   },
   computed: {
     ...mapGetters(["goodsList", "total"]),
