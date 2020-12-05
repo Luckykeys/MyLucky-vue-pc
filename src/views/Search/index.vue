@@ -152,7 +152,7 @@
             :current-page="options.pageNo"
             :pager-count="7"
             :page-size="5"
-            :total="total"
+            :total="44"
           ></Pagination>
         </div>
       </div>

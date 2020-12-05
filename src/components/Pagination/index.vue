@@ -14,7 +14,7 @@
     </button>
     <button v-show="startEnd.start > 2">...</button>
     <button
-      v-for="item in startEnd.end - startEnd.start + 1 > 1
+      v-for="item in startEnd.end - startEnd.start + 1 >= 1
         ? startEnd.end - startEnd.start + 1
         : 0"
       :key="item"
@@ -92,7 +92,7 @@ export default {
       //定义一个点中的按钮的左右两边的差值，而这里一共可以点击的按钮已经默认为7，所以是7-2/2，再向下取整
       const halfCount = Math.floor(count / 2);
       //先计算start
-      if (myCurrentPage > totalPages - halfCount) {
+      if (myCurrentPage >= totalPages - halfCount) {
         start = totalPages - count;
       } else {
         start = myCurrentPage - halfCount;
@@ -117,7 +117,7 @@ export default {
       this.$emit("current-change", currentPage);
     },
     currentPage(currentPage) {
-      this.myCurrentPage=currentPage;
+      this.myCurrentPage = currentPage;
     },
   },
   methods: {
