@@ -22,10 +22,9 @@
 
 <script>
 //1.先引入swiper的两个文件
-import Swiper, { Autoplay, Navigation, Pagination } from "swiper";
-import "swiper/swiper-bundle.min.css";
+import Swiper, { Navigation } from "swiper";
 //使用这两个插件，因为swiper6默认书没有其他的分页器之类的文件
-Swiper.use([Navigation, Pagination, Autoplay]);
+Swiper.use([Navigation]);
 export default {
   name: "Carousel",
   props: {

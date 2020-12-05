@@ -11,7 +11,7 @@ import router from "./router/index";
 import "./plugins/element.js";
 import "./styles/reset.css";
 import "./styles/iconfont.css";
-
+import "swiper/swiper-bundle.min.css";
 Vue.config.productionTip = false;
 // console.log(router)
 new Vue({
