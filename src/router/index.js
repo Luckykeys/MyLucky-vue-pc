@@ -8,6 +8,8 @@ import Login from "../views/Login/index.vue";
 import Register from "../views/Register/index.vue";
 import Search from "../views/Search/index.vue";
 import Detail from "../views/Detail/index.vue";
+import ShopCart from "../views/ShopCart/index.vue";
+import AddCartSuccess from "../views/AddCartSuccess/index.vue";
 
 
 console.log(VueRouter.prototype);
@@ -64,6 +66,18 @@ export default new VueRouter({
       path: "/detail/:id",
       component: Detail,
     },
+    //添加购物车成功的界面
+    {
+      name:"addcartsuccess",
+      path:"/addcartsuccess",
+      component:AddCartSuccess
+    },
+    //购物车结算详情界面组件
+    {
+      name:"shopcart",
+      path:"/shopcart",
+      component:ShopCart
+    }
   ],
   scrollBehavior() {
     return { x: 0, y: 0 };

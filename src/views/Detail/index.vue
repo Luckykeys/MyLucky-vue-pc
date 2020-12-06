@@ -16,10 +16,23 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom :imgUrl="skuInfo.skuImageList&&skuInfo.skuImageList[currentIndex]&&skuInfo.skuImageList[currentIndex].imgUrl"
-          :bigImgUrl="skuInfo.skuImageList&&skuInfo.skuImageList[currentIndex]&&skuInfo.skuImageList[currentIndex].imgUrl"/>
+          <Zoom
+            :imgUrl="
+              skuInfo.skuImageList &&
+              skuInfo.skuImageList[currentIndex] &&
+              skuInfo.skuImageList[currentIndex].imgUrl
+            "
+            :bigImgUrl="
+              skuInfo.skuImageList &&
+              skuInfo.skuImageList[currentIndex] &&
+              skuInfo.skuImageList[currentIndex].imgUrl
+            "
+          />
           <!-- 小图列表 -->
-          <ImageList :skuImageList="skuInfo.skuImageList" :updateCurrentIndex="updateCurrentIndex"/>
+          <ImageList
+            :skuImageList="skuInfo.skuImageList"
+            :updateCurrentIndex="updateCurrentIndex"
+          />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -89,12 +102,18 @@
               </dl>
             </div>
             <div class="cartWrap">
-              <div class="controls">
+              <!-- <div class="controls">
                 <input autocomplete="off" class="itxt" />
                 <a href="javascript:" class="plus">+</a>
                 <a href="javascript:" class="mins">-</a>
-              </div>
-              <div class="add">
+              </div> -->
+              <el-input-number
+                v-model="skuNum"
+                controls-position="right"
+                :min="1"
+                :max="20"
+              ></el-input-number>
+              <div class="add" @click="addCart">
                 <a href="javascript:">加入购物车</a>
               </div>
             </div>
@@ -340,21 +359,38 @@ import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
 export default {
   name: "Detail",
-  data(){
+  data() {
     return {
       //定义一个当前点击图片的下标，初始值为0
-      currentIndex:0
-    }
+      currentIndex: 0,
+      skuNum: 1,
+    };
   },
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
   },
   methods: {
-    ...mapActions(["getProductDetail"]),
+    ...mapActions(["getProductDetail", "getAddToCartCount"]),
     //定义一个点击图片更新下标的函数
-    updateCurrentIndex(index){
-      this.currentIndex = index
-    }
+    updateCurrentIndex(index) {
+      this.currentIndex = index;
+    },
+    //添加或者减少商品数量后加入购物车
+    async addCart() {
+      //使用try...catch来捕获async.await函数的成功和失败
+      try {
+        await this.getAddToCartCount({
+          skuId: this.skuInfo.id,
+          skuNum: this.skuNum,
+        });
+        //点击按钮后跳转到加入购物车成功的页面
+        //但是确定的是应该是发送请求后跳转，而这里调用this.getAddToCartCount是异步的。所有应该添加await和async来等待请求回来再跳转
+        //因为axios函数要等她执行完要加一个await
+        this.$router.push(`/addcartsuccess/?skuNum=${this.skuNum}`);
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   mounted() {
     this.getProductDetail(this.$route.params.id);
@@ -530,6 +566,7 @@ export default {
           }
 
           .cartWrap {
+            display: flex;
             .controls {
               width: 48px;
               position: relative;
@@ -571,15 +608,15 @@ export default {
             }
 
             .add {
-              float: left;
+              display: flex;
 
               a {
                 background-color: #e1251b;
                 padding: 0 25px;
                 font-size: 16px;
                 color: #fff;
-                height: 36px;
-                line-height: 36px;
+                height: 40px;
+                line-height: 40px;
                 display: block;
               }
             }
