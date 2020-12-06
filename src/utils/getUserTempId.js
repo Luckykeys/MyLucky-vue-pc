@@ -7,7 +7,7 @@ function getUserTempId(){
     if(userTempId){
         return userTempId;
     }
-    //如果没有的话就创建一个，直接调用,然后设置哎localStorage中
+    //如果没有的话就创建一个，直接调用,然后设置在localStorage中
     //调用生成的临时id用userTempId接受，然后保存在localStorage中
     userTempId = uuidv4()
     localStorage.setItem("userTempId",userTempId);
