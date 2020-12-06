@@ -2,6 +2,7 @@
 import axios from "axios";
 import NProgress from 'nprogress';
 import { Message } from 'element-ui';
+import getUserTempId from "./getUserTempId"
 import "nprogress/nprogress.css"
 const instance = axios.create({
   baseURL: "/api",
@@ -9,10 +10,14 @@ const instance = axios.create({
 
   // }
 });
-
+//在请求之前调用可以把数据存在内存中，提升性能
+const userTempId = getUserTempId()
 //请求拦截器
-instance.interceptors.request.use((config) => {
+instance.interceptors.request.use(
+    (config) => {
     NProgress.start()
+    //给config的请求头设置临时id在每次发送请求的时候携带临时id
+    config.headers.userTempId = userTempId;
     return config;
 });
 
