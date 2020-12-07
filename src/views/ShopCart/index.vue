@@ -23,31 +23,31 @@
             <span class="price">{{ cart.skuPrice }}</span>
           </li>
           <li class="cart-list-con5">
-            <a
-              href="javascript:void(0)"
+            <button
               class="mins"
+              :disabled="cart.skuNum === 1"
               @click="updateCount(cart.skuId, -1)"
-              >-</a
+              >-</button
             >
             <input
               autocomplete="off"
               type="text"
               :value="cart.skuNum"
-              min="1"
+              minnum="1"
               class="itxt"
             />
-            <a
-              href="javascript:void(0)"
+            <button
               class="plus"
+              :disabled="cart.skuNum === 10"
               @click="updateCount(cart.skuId, 1)"
-              >+</a
+              >+</button
             >
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{ cart.skuPrice * cart.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="#none" class="sindelet" @click="delCart">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -104,7 +104,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getCartList", "getAddToCartCount"]),
+    ...mapActions(["getCartList", "getAddToCartCount","getDelCart"]),
     //点击更新商品的数量
     async updateCount(skuId, skuNum) {
       //点击的时候发送请求,更新商品
@@ -112,6 +112,12 @@ export default {
       //重新发一次请求刷新页面
       // this.getCartList()
     },
+    //点击删除
+    async delCart(skuId){
+      await this.getDelCart(skuId);
+      //手动重新发送一次请求
+      this.getCartList()
+    }
   },
   mounted() {
     this.getCartList();
@@ -213,11 +219,12 @@ export default {
           width: 12.5%;
 
           .mins {
+            outline:none;
             border: 1px solid #ddd;
             border-right: 0;
             float: left;
             color: #666;
-            width: 6px;
+            /* width: 6px; */
             text-align: center;
             padding: 8px;
           }
@@ -232,11 +239,12 @@ export default {
           }
 
           .plus {
+            outline: none;
             border: 1px solid #ddd;
             border-left: 0;
             float: left;
             color: #666;
-            width: 6px;
+            /* width: 6px; */
             text-align: center;
             padding: 8px;
           }
