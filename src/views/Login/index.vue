@@ -38,7 +38,13 @@
               </ValidationProvider>
               <div class="setting clearFix">
                 <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="" />
+                  <input
+                    name="m1"
+                    type="checkbox"
+                    value="2"
+                    checked=""
+                    v-model="isAutoLogin"
+                  />
                   自动登录
                 </label>
                 <span class="forget">忘记密码？</span>
@@ -80,6 +86,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 //手机号必填的验证
@@ -96,10 +103,24 @@ export default {
         password: "",
       },
       //定义一个变量表示正在登录在线中的状态，
-      isLoading:false,
+      isLoading: false,
       //定义一个变量表示自动登录
-      isAutoLogin:true
+      isAutoLogin: true,
     };
+  },
+  //在判断是否存在之后直接跳转到home页面
+  //如果有则直接跳转，如果没有则进入下面的流程
+  created(){
+    if(this.token){
+      this.$router.replace("/")
+    }
+  },
+  computed: {
+    //从vuex中获取相应的数据
+    ...mapState({
+      token: (state) => state.user.token,
+      name: (state) => state.user.name,
+    }),
   },
   methods: {
     async loginSuccess() {
@@ -111,6 +132,12 @@ export default {
         this.isLoading = true;
         const { phone, password } = this.user;
         await this.$store.dispatch("login", { phone, password });
+        //实现自动登录的条件是,保证是登录成功的，且是勾选了自动登录的框
+        if(this.isAutoLogin){
+          //把token和name保存在localStorage中,下次可以直接用存下来的这个token来实现自动登录跳转到home页面
+          localStorage.setItem("token",this.token)
+          localStorage.setItem("name",this.name)
+        }
         this.$router.push("/");
       } catch {
         this.isLoading = false;

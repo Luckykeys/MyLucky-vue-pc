@@ -1,9 +1,9 @@
 import { reqRegister , reqLogin} from "@api/user.js";
 export default {
-  //返回的成功的请求中有name,token
+  //初始化数据，先判断是否存在数据
   state: {
-    name: "",
-    token: "",
+    name:localStorage.getItem("name") || "",
+    token: localStorage.getItem("token") || "",
   },
   getters: {},
   actions: {
