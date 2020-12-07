@@ -10,6 +10,11 @@ import Search from "../views/Search/index.vue";
 import Detail from "../views/Detail/index.vue";
 import ShopCart from "../views/ShopCart/index.vue";
 import AddCartSuccess from "../views/AddCartSuccess/index.vue";
+import Pay from "../views/Pay/index.vue";
+import PaySuccess from "../views/PaySuccess/index.vue";
+import Trade from "../views/Trade/index.vue";
+import Center from "../views/Center/index.vue";
+
 
 
 console.log(VueRouter.prototype);
@@ -77,6 +82,30 @@ export default new VueRouter({
       name:"shopcart",
       path:"/shopcart",
       component:ShopCart
+    },
+    //核对订单信息页面
+    {
+      name:"trade",
+      path:"/trade",
+      component:Trade
+    },
+    //立即支付页面
+    {
+      name:"pay",
+      path:"/pay",
+      component:Pay
+    },
+    //支付成功页面
+    {
+      name:"paySuccess",
+      path:"/paySuccess",
+      component:PaySuccess
+    },
+    //最后的订单中心
+    {
+      name:"center",
+      path:"/center",
+      component:Center
     }
   ],
   scrollBehavior() {
