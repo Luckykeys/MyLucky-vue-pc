@@ -18,6 +18,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
     (config) => {
     NProgress.start()
+    // if(config){
+    //     config.headers.token = token
+    // }
     //给config的请求头设置临时id在每次发送请求的时候携带临时id
     config.headers.userTempId = userTempId;
     return config;

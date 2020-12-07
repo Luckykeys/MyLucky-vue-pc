@@ -152,15 +152,14 @@ export default {
           return;
         }
         //调用actions函数的方法让其发送请求
-        await this.$store.dispatch("register",{phone, password,  code});
+        await this.$store.dispatch("register", { phone, password, code });
         //发送请求后跳转页面
         this.$router.push("/login");
-      } catch{
+      } catch {
         //如果注册失败的话，会清空密码和刷新验证码
         this.user.password = "";
         this.user.rePassword = "";
-        this.refreshCode()
-        // console.log(e);
+        this.refreshCode();
       }
     },
     //点击图片刷新验证码

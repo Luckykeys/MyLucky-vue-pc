@@ -95,13 +95,26 @@ export default {
         phone: "",
         password: "",
       },
+      //定义一个变量表示正在登录在线中的状态，
+      isLoading:false,
+      //定义一个变量表示自动登录
+      isAutoLogin:true
     };
   },
   methods: {
     async loginSuccess() {
-      const { phone, password } = this.user;
-      await this.$store.dispatch("login", {phone, password});
-      this.$router.push("/")
+      try {
+        //设置一个开关表示如果是登陆的则不再登录，如果不是就可以登录
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        const { phone, password } = this.user;
+        await this.$store.dispatch("login", { phone, password });
+        this.$router.push("/");
+      } catch {
+        this.isLoading = false;
+      }
     },
   },
   components: {
