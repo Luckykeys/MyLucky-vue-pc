@@ -384,6 +384,9 @@ export default {
           skuNum: this.skuNum,
         });
         //点击按钮后跳转到加入购物车成功的页面
+        //把这里的商品的数据保存在sessionStorage中，让点击跳转的时候带上数据然后展示
+        //sessionStorage保存数据的类型树字符串类型
+        sessionStorage.setItem("cartInfo",JSON.stringify(this.skuInfo))
         //但是确定的是应该是发送请求后跳转，而这里调用this.getAddToCartCount是异步的。所有应该添加await和async来等待请求回来再跳转
         //因为axios函数要等她执行完要加一个await
         this.$router.push(`/addcartsuccess/?skuNum=${this.skuNum}`);

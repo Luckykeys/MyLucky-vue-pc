@@ -70,7 +70,7 @@
           >件商品
         </div>
         <div class="sumprice">
-          <em>总价（不含运费） ：</em>
+          <em>总价（不含运费）：</em>
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">

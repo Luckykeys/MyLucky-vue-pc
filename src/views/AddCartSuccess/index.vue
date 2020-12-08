@@ -1,21 +1,21 @@
 <template>
   <div class="cart-complete-wrap">
     <div class="cart-complete">
-      <h3><i class="sui-icon icon-pc-right"></i>商品已成功加入购物车！</h3>
+      <h3><i class="icon-pc-right"></i>商品已成功加入购物车！</h3>
       <div class="goods">
         <div class="left-good">
           <div class="left-pic">
-            <img src="good.skuDefaultImg" />
+            <img :src="cartInfo.skuDefaultImg" />
           </div>
           <div class="right-info">
             <p class="title">
-              小米红米 Redmi note8 手机 梦幻蓝 全网通(4GB+64GB)
+              {{ cartInfo.skuName }}
             </p>
-            <p class="attr">颜色：WFZ5099IH/5L钛金釜内胆 数量：2</p>
+            <p class="attr">颜色:WFZ5099IH/5L钛金釜内胆 数量：{{$route.query.skuNum}}</p>
           </div>
         </div>
         <div class="right-gocart">
-          <a href="javascript:" class="sui-btn btn-xlarge">查看商品详情</a>
+          <router-link :to="`/detail/${cartInfo.id}`" class="sui-btn btn-xlarge">查看商品详情</router-link>
           <router-link to="/shopcart">去购物车结算 > </router-link>
         </div>
       </div>
@@ -26,6 +26,27 @@
 <script>
 export default {
   name: "AddCartSuccess",
+  data() {
+    return {
+      cartInfo: JSON.parse(sessionStorage.getItem("cartInfo") || "{}"),
+    };
+  },
+  //这里涉及到一个需求就是:只有从detail页面过来才可以到这个页面，而其他的页面过来，如果没有登录的话是不可以进来这个页面的
+  //使用vue-router的组件守卫
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      console.log(vm);
+      // 通过 `vm` 访问组件实例
+      //访问这个页面的条件1.detail页面过来 2.携带之前组建的数据
+      if (
+        from.name === "detail" && JSON.parse(sessionStorage.getItem("cartInfo"))
+        //如果现在addcartsuccess页面刷新一次还在本身的页面的话，就应该把这个from.name === "detail"，因为如果路由守卫则有的话则会判断是不是从detail传过来 
+      ) {
+        return next();
+      }
+      next("/shopcart");
+    });
+  },
 };
 </script>
 
