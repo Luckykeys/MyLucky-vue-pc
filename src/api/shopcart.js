@@ -28,6 +28,6 @@ export const reqUpdateCheckCart = (skuId, isChecked) => {
 export const reqGetDelCart = (skuId) => {
   return request({
     method: "DELETE",
-    url: `/cart/cart/deleteCart/${skuId}`,
+    url: `/cart/deleteCart/${skuId}`,
   });
 };

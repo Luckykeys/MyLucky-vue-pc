@@ -1,7 +1,7 @@
 <template>
   <div class="cart-complete-wrap">
     <div class="cart-complete">
-      <h3><i class="icon-pc-right"></i>商品已成功加入购物车！</h3>
+      <h3><i class="iconfont icon-duigou"></i>商品已成功加入购物车！</h3>
       <div class="goods">
         <div class="left-good">
           <div class="left-pic">
@@ -11,11 +11,15 @@
             <p class="title">
               {{ cartInfo.skuName }}
             </p>
-            <p class="attr">颜色:WFZ5099IH/5L钛金釜内胆 数量：{{$route.query.skuNum}}</p>
+            <p class="attr">
+              颜色:WFZ5099IH/5L钛金釜内胆 数量：{{ $route.query.skuNum }}
+            </p>
           </div>
         </div>
         <div class="right-gocart">
-          <router-link :to="`/detail/${cartInfo.id}`" class="sui-btn btn-xlarge">查看商品详情</router-link>
+          <router-link :to="`/detail/${cartInfo.id}`" class="sui-btn btn-xlarge"
+            >查看商品详情</router-link
+          >
           <router-link to="/shopcart">去购物车结算 > </router-link>
         </div>
       </div>
@@ -39,8 +43,9 @@ export default {
       // 通过 `vm` 访问组件实例
       //访问这个页面的条件1.detail页面过来 2.携带之前组建的数据
       if (
-        from.name === "detail" && JSON.parse(sessionStorage.getItem("cartInfo"))
-        //如果现在addcartsuccess页面刷新一次还在本身的页面的话，就应该把这个from.name === "detail"，因为如果路由守卫则有的话则会判断是不是从detail传过来 
+        from.name === "detail" &&
+        JSON.parse(sessionStorage.getItem("cartInfo"))
+        //如果现在addcartsuccess页面刷新一次还在本身的页面的话，就应该把这个from.name === "detail"，因为如果路由守卫则有的话则会判断是不是从detail传过来
       ) {
         return next();
       }
@@ -51,6 +56,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.icon-pc-right:before {
+  content: "\c603";
+}
 .cart-complete-wrap {
   background-color: #f4f4f4;
 

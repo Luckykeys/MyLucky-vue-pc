@@ -9,6 +9,8 @@ import "./mock/mockServer";
 //应用路由
 import router from "./router/index";
 import "./plugins/element.js";
+import "./plugins/lazyLoad.js";
+
 import "./styles/reset.css";
 import "./styles/iconfont.css";
 import "swiper/swiper-bundle.min.css";

@@ -1,9 +1,9 @@
 <template>
   <div class="list-container">
     <div class="sortList clearfix">
-        <div class="center">
-          <!--banner轮播-->
-          <!-- <div class="swiper-container">
+      <div class="center">
+        <!--banner轮播-->
+        <!-- <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
                   <img :src="banner.imgUrl" alt="">
@@ -14,8 +14,8 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
           </div> -->
-          <Carousel :carouselList="banners"></Carousel>
-        </div>
+        <Carousel :carouselList="banners"></Carousel>
+      </div>
       <div class="right">
         <div class="news">
           <h4>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import Carousel from '@comps/Carousel'
+import Carousel from "@comps/Carousel";
 // //1.先引入swiper的两个文件
 // import Swiper ,{ Autoplay, Navigation, Pagination } from "swiper";
 // import "swiper/swiper-bundle.min.css";
@@ -99,8 +99,8 @@ import Carousel from '@comps/Carousel'
 import { mapState, mapActions } from "vuex";
 export default {
   name: "ListContainer",
-  components:{
-    Carousel
+  components: {
+    Carousel,
   },
   computed: {
     ...mapState({
@@ -119,7 +119,7 @@ export default {
     //     loop: true, // 循环模式选项
     //     autoplay:{
     //       delay:5000,//轮播间隔时间
-    //       disableOnInteraction:false // 
+    //       disableOnInteraction:false //
     //     },
     //     // 如果需要分页器
     //     pagination: {

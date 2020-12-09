@@ -8,7 +8,7 @@
         v-for="carousel in carouselList"
         :key="carousel.id"
       >
-        <img :src="carousel.imgUrl" alt="" />
+        <img v-lazy="carousel.imgUrl" alt="" />
       </div>
     </div>
     <!-- If we need pagination -->
@@ -63,11 +63,11 @@ export default {
       });
     },
   },
-  mounted(){
+  mounted() {
     //先判断是否有数据
-    if(!this.carouselList.length) return;
-    this.initSwiper()
-  }
+    if (!this.carouselList.length) return;
+    this.initSwiper();
+  },
 };
 </script>
 

@@ -114,7 +114,7 @@ const router = new VueRouter({
 });
 const pressiomPath = ["/trade","/pay","/center"]
 router.beforeEach((to,from ,next)=>{
-  console.log(to,from ,next)
+  // console.log(to,from ,next)
   //如果要去的路径是有这些路径开头的且没有登录，那就让其直接去login页面,否则就直接调用next()去去下一个
   if(pressiomPath.indexOf(to.path)>-1 && !store.state.user.token){
     return next("/login")
