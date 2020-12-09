@@ -9,7 +9,8 @@
         :key="address.id"
       >
         <span
-          :class="{ username: true, selected: address === selectedAddress}"
+          :class="{ username: true, selected: address === selectedAddress }"
+          @click="selectedAddress = address"
           >{{ address.consignee }}</span
         >
         <p>
@@ -61,6 +62,7 @@
         <textarea
           placeholder="建议留言前先与商家沟通确认"
           class="remarks-cont"
+          v-model="orderComment"
         ></textarea>
       </div>
       <div class="line"></div>
@@ -95,20 +97,20 @@
       </div>
       <div class="receiveInfo">
         寄送至:
-        <span>xxx</span>
-        收货人：<span>xxx</span>
-        <span>xxxx11111</span>
+        <span>{{ assignAddress.userAddress }}</span>
+        收货人：<span>{{ assignAddress.consignee }}</span>
+        <span>{{ assignAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <button class="subBtn" @click="submitOrder">提交订单</button>
     </div>
   </div>
 </template>
 
 <script>
 //引入发送请求的接口，这里没有使用vuex来发送请求
-import { reqGetTrade } from "@api/pay.js";
+import { reqGetTrade, reqSubmitOrder } from "@api/pay.js";
 export default {
   name: "Trade",
   data() {
@@ -116,16 +118,50 @@ export default {
       tradeList: {},
       //选中的收货地址
       selectedAddress: {},
+      orderComment: "",
     };
+  },
+  methods: {
+    async submitOrder() {
+      const { tradeNo ,detailArrayList } = this.tradeList;
+      const { phoneNum,userAddress,consignee } = this.assignAddress;
+      const orderId = await reqSubmitOrder({
+        tradeNo:tradeNo,
+        consignee: consignee,
+        consigneeTel: phoneNum,
+        deliveryAddress: userAddress,
+        paymentWay: "ONLINE",
+        orderComment: this.orderComment,
+        orderDetailList: detailArrayList,
+      });
+
+      //跳转页面
+      this.$router.push({
+        path: "/pay",
+        query: {
+          orderId,
+        },
+      });
+    },
+  },
+  //定义一个计算属性只读
+  computed: {
+    assignAddress() {
+      return this.tradeList.userAddressList
+        ? this.tradeList.userAddressList.find((address) => {
+            return address === this.selectedAddress;
+          })
+        : {};
+    },
   },
   async mounted() {
     //发送请求
     const tradeList = await reqGetTrade();
     this.tradeList = tradeList;
     //找元素使用find,找到
-    this.selectedAddress = tradeList.userAddressList.find((address)=>{
-      return address.isDefault === "1"
-    })
+    this.selectedAddress = tradeList.userAddressList.find((address) => {
+      return address.isDefault === "1";
+    });
   },
 };
 </script>

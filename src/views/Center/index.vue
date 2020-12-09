@@ -79,7 +79,7 @@
                 <thead>
                   <tr>
                     <th colspan="5">
-                      <span class="ordertitle">2017-02-11 11:59　订单编号：7867473872181848 <span
+                      <span class="ordertitle">2017-02-11 11:59订单编号：7867473872181848 <span
                           class="pull-right delete"><img src="./images/delete.png"></span></span>
                     </th>
                   </tr>
@@ -131,7 +131,7 @@
                 <thead>
                   <tr>
                     <th colspan="5">
-                      <span class="ordertitle">2017-02-11 11:59　订单编号：7867473872181848 <span
+                      <span class="ordertitle">2017-02-11 11:59订单编号：7867473872181848 <span
                           class="pull-right delete"><img src="./images/delete.png"></span></span>
                     </th>
                   </tr>

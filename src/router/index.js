@@ -17,7 +17,7 @@ import PaySuccess from "../views/PaySuccess/index.vue";
 import Trade from "../views/Trade/index.vue";
 import Center from "../views/Center/index.vue";
 
-console.log(VueRouter.prototype);
+// console.log(VueRouter.prototype);
 //重写router的push和replace
 const push = VueRouter.prototype.push;
 const replace = VueRouter.prototype.replace;
