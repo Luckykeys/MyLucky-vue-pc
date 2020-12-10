@@ -36,10 +36,23 @@ export const reqSubmitOrder = ({
   });
 };
 
-export const reqPayment = (orderId)=>{
-    request({
-        method:"GET",
-        url:`/payment/weixin/createNative/${orderId}`
-    })
+export const reqPayment = (orderId) => {
+  return request({
+    method: "GET",
+    url: `/payment/weixin/createNative/${orderId}`,
+  });
+};
 
-}
+export const reqPayStatus = (orderId) => {
+  return request({
+    method: "GET",
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+  });
+};
+
+export const reqOrderAuthPage = (page, limit) => {
+  return request({
+    method: "GET",
+    url: `/order/auth/${page}/${limit}`,
+  });
+};

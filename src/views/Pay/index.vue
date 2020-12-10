@@ -94,41 +94,57 @@
 
 <script>
 import QRCode from "qrcode";
-import { reqPayment } from "@api/pay.js";
+import {
+  reqPayment,
+  reqPayStatus
+} from "@api/pay.js";
 export default {
   name: "Pay",
   methods: {
     async toPaySuccess() {
       const result = await reqPayment(this.$route.query.orderId);
-      const url = result.codeUrl;
-      QRCode.toDataURL(url)
+      console.log(result.codeUrl);
+      QRCode.toDataURL(result.codeUrl)
         .then((url) => {
-          this.$alert(`${url}`, "请使用微信扫描二维码支付", {
-            confirmButtonText: "我已成功支付",
-            cancelButtonText: "支付中遇到了问题",
-            showCancelButton: true,
-            center: true,
-            showClose: false,
-            dangerouslyUseHTMLString: true,
-          })
+          this.$alert(
+            `<img src="${url}" alt="qrcode"/>`,
+            "请使用微信扫码支付",
+            {
+              showClose: false, // 是否显示右上角关闭按钮
+              showCancelButton: true, // 是否显示取消按钮
+              confirmButtonText: "我已成功支付", // 成功按钮文字
+              cancelButtonText: "支付过程中出现问题", // 取消按钮文字
+              center: true, // 全部居中布局
+              dangerouslyUseHTMLString: true, // 才会解析html
+            }
+          )
             .then(() => {
+              // 点击了成功按钮
               this.$message({
                 type: "success",
-                message: "删除成功!",
+                message: "成功!",
               });
+              //请求成功后发送请求订单状态数据
+              reqPayStatus(this.$route.query.orderId)
+                .then(() => {
+                  this.$router.push("/paysuccess");
+                })
+                .catch((error) => {
+                  alert(error);
+                });
+              this.$router.push("/paysuccess");
             })
             .catch(() => {
+              // 点击取消按钮
               this.$message({
                 type: "info",
-                message: "已取消删除",
+                message: "已取消",
               });
             });
         })
-        .catch((err) => {
-          console.error(err);
+        .catch(() => {
+          this.$message.error("支付遇到了问题，请重新试试");
         });
-
-      // this.$router.push("/paysuccess");
     },
   },
 };

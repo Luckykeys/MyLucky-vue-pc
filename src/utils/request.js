@@ -6,11 +6,12 @@ import { Message } from "element-ui";
 import getUserTempId from "./getUserTempId";
 import store from "@store";
 import "nprogress/nprogress.css";
-
+const perfix_url =
+  process.env.NODE_ENV === "development" ? "/" : "http://182.92.128.115/";
 //在请求之前调用可以把数据存在内存中，提升性能
 const userTempId = getUserTempId();
 const instance = axios.create({
-  baseURL: "/api",
+  baseURL: `${perfix_url}api`,
   headers: {},
 });
 

@@ -5,17 +5,29 @@ import VueRouter from "vue-router";
 import store from "@store";
 
 //引入组件
-import Home from "../views/Home/index.vue";
-import Login from "../views/Login/index.vue";
-import Register from "../views/Register/index.vue";
-import Search from "../views/Search/index.vue";
-import Detail from "../views/Detail/index.vue";
-import ShopCart from "../views/ShopCart/index.vue";
-import AddCartSuccess from "../views/AddCartSuccess/index.vue";
-import Pay from "../views/Pay/index.vue";
-import PaySuccess from "../views/PaySuccess/index.vue";
-import Trade from "../views/Trade/index.vue";
-import Center from "../views/Center/index.vue";
+// import Home from "../views/Home/index.vue";
+// import Login from "../views/Login/index.vue";
+// import Register from "../views/Register/index.vue";
+// import Search from "../views/Search/index.vue";
+// import Detail from "../views/Detail/index.vue";
+// import ShopCart from "../views/ShopCart/index.vue";
+// import AddCartSuccess from "../views/AddCartSuccess/index.vue";
+// import Pay from "../views/Pay/index.vue";
+// import PaySuccess from "../views/PaySuccess/index.vue";
+// import Trade from "../views/Trade/index.vue";
+// import Center from "../views/Center/index.vue";
+
+const Home = () => import(/* webpackChunkName: "Home" */"../views/Home/index.vue");
+const Login = () => import(/* webpackChunkName: "Login" */"../views/Login/index.vue");
+const Register = () => import(/* webpackChunkName: "Register" */"../views/Register/index.vue");
+const Search = () => import(/* webpackChunkName: "Search" */"../views/Search/index.vue");
+const Detail = () => import(/* webpackChunkName: "Detail" */"../views/Detail/index.vue");
+const ShopCart = () => import(/* webpackChunkName: "ShopCart" */"../views/ShopCart/index.vue");
+const AddCartSuccess = () => import(/* webpackChunkName: "AddCartSuccess" */"../views/AddCartSuccess/index.vue");
+const Pay = () => import(/* webpackChunkName: "Pay" */"../views/Pay/index.vue");
+const PaySuccess = () => import(/* webpackChunkName: "PaySuccess" */"../views/PaySuccess/index.vue");
+const Trade = () => import(/* webpackChunkName: "Trade" */"../views/Trade/index.vue");
+const Center = () => import(/* webpackChunkName: "Center" */"../views/Center/index.vue");
 
 // console.log(VueRouter.prototype);
 //重写router的push和replace
@@ -97,14 +109,14 @@ const router = new VueRouter({
     },
     //支付成功页面
     {
-      name: "paySuccess",
-      path: "/paySuccess",
+      name: "paysuccess",
+      path: "/paysuccess",
       component: PaySuccess,
     },
     //最后的订单中心
     {
       name: "center",
-      path: "/center",
+      path: "/center/myorder",
       component: Center,
     },
   ],
@@ -112,13 +124,13 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
 });
-const pressiomPath = ["/trade","/pay","/center"]
-router.beforeEach((to,from ,next)=>{
+const pressiomPath = ["/trade", "/pay", "/center"];
+router.beforeEach((to, from, next) => {
   // console.log(to,from ,next)
   //如果要去的路径是有这些路径开头的且没有登录，那就让其直接去login页面,否则就直接调用next()去去下一个
-  if(pressiomPath.indexOf(to.path)>-1 && !store.state.user.token){
-    return next("/login")
+  if (pressiomPath.indexOf(to.path) > -1 && !store.state.user.token) {
+    return next("/login");
   }
-  next()
-})
+  next();
+});
 export default router;

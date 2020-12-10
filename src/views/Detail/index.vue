@@ -93,9 +93,10 @@
                 <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
                 <dd
                   changepirce="0"
-                  class="active"
+                  :class="{ active: spuSaleAttrValue.isChecked === '1' }"
                   v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
+                  @click="chooseAttr(spuSaleAttrValue, spuSaleAttr.spuSaleAttrValueList)"
                 >
                   {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
@@ -386,13 +387,27 @@ export default {
         //点击按钮后跳转到加入购物车成功的页面
         //把这里的商品的数据保存在sessionStorage中，让点击跳转的时候带上数据然后展示
         //sessionStorage保存数据的类型树字符串类型
-        sessionStorage.setItem("cartInfo",JSON.stringify(this.skuInfo))
+        sessionStorage.setItem("cartInfo", JSON.stringify(this.skuInfo));
         //但是确定的是应该是发送请求后跳转，而这里调用this.getAddToCartCount是异步的。所有应该添加await和async来等待请求回来再跳转
         //因为axios函数要等她执行完要加一个await
         this.$router.push(`/addcartsuccess/?skuNum=${this.skuNum}`);
       } catch (e) {
         console.log(e);
       }
+    },
+    //选择属性
+    chooseAttr(value, valueList) {
+      // const { id, saleAttrValueName } = value;
+      // console.log(id, saleAttrValueName);
+      //如果默认选中的是它那么切换的时候直接return
+      if (value.isChecked === "1") {
+        return;
+      }
+      //遍历spuSaleAttrValue找出isChecked === "0"的，当选择的时候换成1
+      valueList.forEach((item) => {
+        item.isChecked = "0";
+      });
+      value.isChecked = "1";
     },
   },
   mounted() {
@@ -561,8 +576,8 @@ export default {
                 border-left: 1px solid #eee;
 
                 &.active {
-                  color: green;
-                  border: 1px solid green;
+                  color: red;
+                  border: 1px solid red;
                 }
               }
             }

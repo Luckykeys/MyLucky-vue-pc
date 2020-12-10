@@ -5,10 +5,11 @@
       <!-- Slides -->
       <div
         class="swiper-slide"
-        v-for="carousel in carouselList"
+        v-for="(carousel,index) in carouselList"
         :key="carousel.id"
       >
-        <img v-lazy="carousel.imgUrl" alt="" />
+        <img v-if="index === 0 || index === carouselList.length - 1" :src="carousel.imgUrl" alt="">
+        <img v-else v-lazy="carousel.imgUrl" alt="" />
       </div>
     </div>
     <!-- If we need pagination -->
@@ -22,9 +23,9 @@
 
 <script>
 //1.先引入swiper的两个文件
-import Swiper, { Navigation } from "swiper";
+import Swiper, { Navigation ,Pagination,Autoplay } from "swiper";
 //使用这两个插件，因为swiper6默认书没有其他的分页器之类的文件
-Swiper.use([Navigation]);
+Swiper.use([Navigation,Pagination,Autoplay]);
 export default {
   name: "Carousel",
   props: {
@@ -72,4 +73,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-wrapper{
+  height:100%;
+}
+.swiper-slide {
+  img {
+    width: 100%;
+  }
+}
 </style>
