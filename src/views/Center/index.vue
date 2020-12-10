@@ -152,7 +152,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="choose-order">
+            <!-- <div class="choose-order">
               <div class="pagination">
                 <ul>
                   <li class="prev disabled">
@@ -179,7 +179,14 @@
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;共2页&nbsp;</span>
                 </div>
               </div>
-            </div>
+            </div> -->
+            <Pagination
+              @currentChange="getOrders"
+              :current-page="current"
+              :pager-count="7"
+              :page-size="size"
+              :total="total"
+            ></Pagination>
           </div>
           <!--猜你喜欢-->
           <div class="like">
@@ -244,17 +251,28 @@
 </template>
 
 <script>
+import Pagination from "@comps/Pagination";
 import { reqOrderAuthPage } from "@api/pay.js";
 export default {
   name: "Center",
   data() {
     return {
       centerList: {},
+      total: 41,
+      size: 2,
+      current: 1,
+      // pages: 21,
     };
   },
-  methods:{
-    toMyOrder(){
-      this.$router.push("/center/myorder")
+  components: {
+    Pagination,
+  },
+  methods: {
+    toMyOrder() {
+      this.$router.push("/center/myorder");
+    },
+    getOrders(){
+      this.reqOrderAuthPage()
     }
   },
   //在mounted中发送请求

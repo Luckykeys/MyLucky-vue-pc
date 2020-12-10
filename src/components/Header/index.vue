@@ -6,8 +6,8 @@
         <div class="header-loginList">
           <p>尚品汇欢迎您！</p>
           <p v-if="$store.state.user.name">
-            <span>{{$store.state.user.name}}</span>
-            <button>退出登录</button>
+            <span>{{ $store.state.user.name }}</span>
+            <button @click="back">退出登录</button>
           </p>
           <p v-else>
             <span>请</span>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-// import {mapState} from "vuex"
+// import { reqUserLogout } from "@api/user.js";
 export default {
   name: "Header",
   data() {
@@ -86,6 +86,17 @@ export default {
       }
       //应该收集完参数才进行跳转
       // this.$router.push(location);
+    },
+    async back() {
+      if (window.confirm("您确定要退出登录吗？")) {
+        //清空存在localStorage中的值
+        localStorage.removeItem("name");
+        localStorage.removeItem("token");
+        //把存在vuex中的数据清空
+        this.$store.state.name = "";
+        this.$store.state.token = "";
+        this.$router.push("/login");
+      }
     },
   },
   mounted() {

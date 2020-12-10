@@ -1,7 +1,7 @@
 import request from "@utils/request.js";
 
 //封装一个发送登录请求的功能函数
-export const reqLogin = ({phone, password}) => {
+export const reqLogin = ({ phone, password }) => {
   return request({
     method: "POST",
     url: "/user/passport/login",
@@ -13,7 +13,7 @@ export const reqLogin = ({phone, password}) => {
 };
 
 //封装一个发送注册请求的功能函数
-export const reqRegister = ({phone, password, code}) => {
+export const reqRegister = ({ phone, password, code }) => {
   return request({
     method: "POST",
     url: "/user/passport/register",
@@ -22,5 +22,12 @@ export const reqRegister = ({phone, password, code}) => {
       password,
       code,
     },
+  });
+};
+//退出登录
+export const reqUserLogout = () => {
+  return request({
+    method: "GET",
+    url: "/user/passport/logout",
   });
 };
